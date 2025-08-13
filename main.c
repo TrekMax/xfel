@@ -5,6 +5,24 @@
 #include <spinand.h>
 #include <libusb.h>
 
+static void format_human_readable_size(uint64_t size, char *buffer, size_t buffer_size)
+{
+	const char *units[] = {"B", "KB", "MB", "GB", "TB"};
+	double formatted_size = (double)size;
+	int unit_index = 0;
+	
+	while (formatted_size >= 1024.0 && unit_index < 4) {
+		formatted_size /= 1024.0;
+		unit_index++;
+	}
+	
+	if (unit_index == 0) {
+		snprintf(buffer, buffer_size, "%lld %s", (long long)size, units[unit_index]);
+	} else {
+		snprintf(buffer, buffer_size, "%.2f %s", formatted_size, units[unit_index]);
+	}
+}
+
 static void usage(void)
 {
 	printf("xfel(v1.3.3) - https://github.com/xboot/xfel\r\n");
@@ -301,7 +319,11 @@ int main(int argc, char * argv[])
 			uint64_t capacity;
 
 			if(spinor_detect(&ctx, name, &capacity))
-				printf("Found spi nor flash '%s' with %lld bytes\r\n", name, (long long)capacity);
+			{
+				char size_str[64];
+				format_human_readable_size(capacity, size_str, sizeof(size_str));
+				printf("Found spi nor flash '%s' with %s (%lld bytes)\r\n", name, size_str, (long long)capacity);
+			}
 			else
 				printf("Can't detect any spi nor flash\r\n");
 		}
@@ -360,7 +382,11 @@ int main(int argc, char * argv[])
 			uint64_t capacity;
 
 			if(spinand_detect(&ctx, name, &capacity))
-				printf("Found spi nand flash '%s' with %lld bytes\r\n", name, (long long)capacity);
+			{
+				char size_str[64];
+				format_human_readable_size(capacity, size_str, sizeof(size_str));
+				printf("Found spi nand flash '%s' with %s (%lld bytes)\r\n", name, size_str, (long long)capacity);
+			}
 			else
 				printf("Can't detect any spi nand flash\r\n");
 		}

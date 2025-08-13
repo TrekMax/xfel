@@ -158,6 +158,7 @@ static const struct spinand_info_t spinand_infos[] = {
 
 	/* FORESEE */
 	{ "F35SQA001G",      SPINAND_ID(0xCD, 0x71, 0x71), 2048,  64,  64, 1024, 1, 1 },
+	{ "F35SQA001G",      SPINAND_ID(0xFF,0xCD, 0x71), 2048,  64,  64, 1024, 1, 1 },
 	{ "F35SQA002G",      SPINAND_ID(0xCD, 0x72, 0x72), 2048,  64,  64, 2048, 1, 1 },
 };
 
