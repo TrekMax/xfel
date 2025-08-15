@@ -38,6 +38,13 @@ usage:
     xfel extra [...]                                    - The extra commands
 ```
 
+## Install
+
+```shell
+cmake -G Ninja -B build && sudo cmake --build build --config Release
+sudo cmake --install build
+```
+
 ## Links
 
 * [The chinese discussion posts](https://whycan.com/t_6546.html)
